@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import { setQuery } from "../entities/search/model/searchSlice";
 
-interface Props {
-  onSearch: (query: string) => void;
-}
-
-export const SearchBar = ({ onSearch }: Props) => {
-  const [query, setQuery] = useState("");
+export const SearchBar = () => {
+  const dispatch = useDispatch();
+  const query = useSelector((state: RootState) => state.search.query);
 
   return (
     <div>
@@ -13,9 +12,11 @@ export const SearchBar = ({ onSearch }: Props) => {
         type="text"
         placeholder="Введите ингредиенты..."
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => dispatch(setQuery(e.target.value))}
       />
-      <button onClick={() => onSearch(query)}>Найти</button>
+      <button onClick={() => console.log("Запуск поиска:", query)}>
+        Найти
+      </button>
     </div>
   );
 };
